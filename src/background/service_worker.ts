@@ -1,6 +1,6 @@
-chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((err) => {
-  console.log(err);
-});
+// chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true }).catch((err) => {
+//   console.log(err);
+// });
 
 // 监听标签页地址更新时
 chrome.tabs.onUpdated.addListener((tabId, info, tab) => {
