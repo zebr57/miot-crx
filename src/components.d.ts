@@ -8,9 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElOption: typeof import('element-plus/es')['ElOption']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
-    SelectComp: typeof import('./components/SelectComp.vue')['default']
+    ElInput: typeof import('element-plus/es')['ElInput']
   }
 }

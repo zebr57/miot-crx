@@ -24,8 +24,8 @@ export default defineManifest(async (env) => ({
     service_worker: "src/background/service_worker.ts",
     type: "module"
   },
-  permissions: ["tabs","webRequest"],
-  
+  permissions: ["tabs", "activeTab", "cookies", "storage"],
+  host_permissions: ["https://iot.mi.com/*"],
   // side_panel: {
   //   default_path: "index.html"
   // },
@@ -34,6 +34,6 @@ export default defineManifest(async (env) => ({
       matches: ["https://iot.mi.com/*"],
       js: ["src/content/index"], // crxjs 会自动打包放到对应目录下 (不能带后缀.js)
       run_at: "document_end"
-    },
+    }
   ]
 }));

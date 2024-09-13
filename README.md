@@ -8,8 +8,8 @@
 
 ## 功能特色
 
-1.  打开米家后台自动显示企业列表弹窗组件
-2.  列表页支持选中、添加、删除企业
+1.  输入框输入企业名称，按回车添加
+2.  列表页支持选中、删除企业
 
 ## 实现方案
 
@@ -36,10 +36,6 @@ function searchClick() {
   });
 }
 ```
-
-通过插件拦截网络请求，获取企业下拉列表
-
-<https://iot.mi.com/cgi-op/api/v1/personCenter/getEnterpriseGroupInfo?userId=2750228175&xiaomiiot_ph=%2B6ATmE9j%2Ft3ye8jEh%2FBnzQ%3D%3D>
 
 
 # Vue 3 + TypeScript + Vite

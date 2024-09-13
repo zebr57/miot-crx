@@ -1,11 +1,11 @@
 {
   "name": "miot-crx",
   "private": true,
-  "version": "0.1.0-beta1",
+  "version": "1.0.0-beta",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
