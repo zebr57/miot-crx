@@ -18,7 +18,7 @@ export default defineManifest(async (env) => ({
   version_name: version,
   action: {
     default_popup: "index.html",
-    default_title: "my-crx"
+    default_title: "MIOT Tools"
   },
   background: {
     service_worker: "src/background/service_worker.ts",

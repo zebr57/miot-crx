@@ -1,7 +1,7 @@
 {
-  "name": "miot-crx",
+  "name": "miot-tools",
   "private": true,
-  "version": "1.0.0-beta1",
+  "version": "1.0.0-beta2",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,7 +15,7 @@
     "vue": "^3.4.21"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "2.0.0-beta.23",
+    "@crxjs/vite-plugin": "2.0.0-beta.26",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.2.2",
     "unplugin-auto-import": "^0.18.2",
