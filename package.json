@@ -1,7 +1,7 @@
 {
   "name": "miot-crx",
   "private": true,
-  "version": "1.0.0-beta",
+  "version": "1.0.0-beta1",
   "type": "module",
   "scripts": {
     "dev": "vite",

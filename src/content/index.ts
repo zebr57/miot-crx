@@ -20,7 +20,8 @@ function searchClick(value: string) {
   const elements = document.querySelectorAll(".dropdown-item");
 
   // 遍历所有找到的元素，查找内容为 '索菲亚' 的元素
-  elements.forEach((element) => {
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
     if (element.textContent?.includes(value)) {
       console.log("Found the element:", element);
 
@@ -30,7 +31,7 @@ function searchClick(value: string) {
       // 如果你只想找到第一个匹配的元素，可以在找到后退出循环
       return;
     }
-  });
+  }
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
