@@ -4,6 +4,9 @@
 
 格式遵循 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 的规范
 <!-- 并且遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/) 版本控制。 -->
+## [v1.0.0-beta3] - 2024-10-30
+### FIXED
+- 米家后台更新同步
 
 ## [v1.0.0-beta2] - 2024-10-24
 ### FIXED
