@@ -46,9 +46,41 @@ const handleDelete = (item) => {
   enterpriseList.value = enterpriseList.value.filter((e) => e != item);
   chrome.storage.local.set({ list: JSON.stringify(enterpriseList.value) }); // 同步保存到本地
 };
+
+const handleJumpProduct = async (pid: Number) => {
+  // 发送消息给content方式
+  chrome.tabs.query(
+    {
+      active: true,
+      currentWindow: true
+    },
+    (tabs) => {
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { type: "popup", action: "click-product", value: pid },
+        (res) => {
+          console.log("获取到信息为：", res);
+          console.log("改变页面地址");
+          // 一秒后执行跳转到产品页
+          const timer = setTimeout(() => {
+            clearTimeout(timer)
+            const newUrl = `https://iot.mi.com/fe-op/productCenter/config/basic?productId=${pid}`; // 替换为你想要的新 URL
+            chrome.tabs.update(tabs[0].id, { url: newUrl });
+          },1000)
+        }
+      );
+    }
+  );
+}
 </script>
 
 <template>
+  <el-button
+    class="operate_item"
+    type="primary"
+    size="small"
+    @click.stop="handleJumpProduct()"
+  >测试</el-button>
   <div class="title">MIOT CRX</div>
   <div>
     <el-input

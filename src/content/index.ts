@@ -35,9 +35,12 @@ function searchClick(value: string) {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("收到来自", request, request.action == "click");
+  console.log("收到来自", request, request.action == "click-product");
   if (request.action == "click") {
     searchClick(request.value);
+  }
+  if(request.action == "click-product") {
+    searchClick("百德通利");
   }
 
   sendResponse("content收到了");
