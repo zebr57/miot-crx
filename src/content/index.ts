@@ -17,7 +17,7 @@ console.log("index.js");
 
 function searchClick(value: string) {
   // 查找所有类名为 'dropdown-item' 的元素
-  const elements = document.querySelectorAll(".dropdown-item");
+  const elements = document.querySelectorAll(".ant-dropdown-menu-item div");
 
   // 遍历所有找到的元素，查找内容为 '索菲亚' 的元素
   for (let i = 0; i < elements.length; i++) {
