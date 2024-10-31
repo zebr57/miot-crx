@@ -35,12 +35,21 @@ function searchClick(value: string) {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("收到来自", request, request.action == "click-product");
+  console.log("收到来自", request, request.action);
   if (request.action == "click") {
     searchClick(request.value);
   }
-  if(request.action == "click-product") {
-    searchClick("百德通利");
+  if (request.action == "add-product") {
+    // 1.获取企业名
+    
+    const enterpriseNodes = document.querySelectorAll(".nav-login-dropdown-label");
+    console.log("产品名：", enterpriseNodes[0].textContent);
+    // 1.获取产品名
+    const productNodes = document.querySelectorAll(".detailHeader-content p");
+    console.log("产品名：", productNodes[0].textContent);
+    // 2.返回给Popup
+    sendResponse(JSON.stringify({enterpriseName: productNodes[0].textContent, productName: productNodes[0].textContent}));
+    return;
   }
 
   sendResponse("content收到了");
