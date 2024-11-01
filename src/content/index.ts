@@ -48,7 +48,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const productNodes = document.querySelectorAll(".detailHeader-content p");
     console.log("产品名：", productNodes[0].textContent);
     // 2.返回给Popup
-    sendResponse(JSON.stringify({enterpriseName: productNodes[0].textContent, productName: productNodes[0].textContent}));
+    sendResponse({enterpriseName: enterpriseNodes[0].textContent, productName: productNodes[0].textContent});
     return;
   }
 

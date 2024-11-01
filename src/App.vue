@@ -6,20 +6,21 @@ import { Delete } from "@element-plus/icons-vue";
 import { ref, onMounted } from "vue";
 import type { TabsPaneContext } from 'element-plus'
 
-const inputValue = ref("");
+const activeName = ref("second") // tab栏切换
+const inputValue = ref(""); 
 const enterpriseList = ref([]);
-const activeName = ref("second")
+const searchValue = ref("")
 const productList = ref([])
 
 onMounted(() => {
   // 获取本地存储的数据
-  chrome.storage.local.get(["list", 'productList'], function (result) {
+  chrome.storage.local.get(["list", 'products'], function (result) {
     console.log("enterpriseList from storage:", result.list);
-    console.log("productList from storage:", result.productList);
+    console.log("productList from storage:", result.products);
     // 赋值
-    const { list, productList } = result;
+    const { list, products } = result;
     if (list) enterpriseList.value = JSON.parse(list);
-    if(productList) productList.value = JSON.parse(productList);
+    if(products) productList.value = JSON.parse(products);
     
   });
 });
@@ -96,12 +97,17 @@ const handleAddProduct = () => {
           console.log("url:", url);
 
           productList.value.push({productName, enterpriseName, url});
-          chrome.storage.local.set({ productList: JSON.stringify(productList.value) }); // 同步保存到本地
+          chrome.storage.local.set({ products: JSON.stringify(productList.value) }); // 同步保存到本地
           
         }
       );
     }
   );
+}
+const handleSearch = () => {
+  console.log(searchValue.value,"handleSearch");
+  const key =  searchValue.value
+  productList.value = productList.value.filter(e => e.productName.indexOf(key) != -1 )
 }
 const handleClickProduct = (item) => {
   console.log("handleClickProduct", item);
@@ -131,6 +137,8 @@ const handleClickProduct = (item) => {
 }
 const handleDeleteProduct = (item) => {
   console.log("handleDeleteProduct", item);
+  productList.value = productList.value.filter((e) => e.productName != item.productName);
+  chrome.storage.local.set({ products: JSON.stringify(productList.value) }); // 同步保存到本地
 }
 </script>
 
@@ -178,16 +186,20 @@ const handleDeleteProduct = (item) => {
     </el-tab-pane>
     <el-tab-pane label="产品" name="second">
       <el-button
-        class="operate_item"
-        style="width: 240px,"
+        style="width: 240px"
         type="primary"
-        size="medium"
         @click.stop="handleAddProduct()"
       >点击自动添加</el-button>
+      <el-input
+          v-model="searchValue"
+          style="width: 240px"
+          placeholder="请输入产品名称过滤"
+          @change="handleSearch()"
+        />
       <div>
         <div class="list_box">
           <div
-            v-for="(item, index) in productList"
+            v-for="(item) in productList"
             :key="item.url"
             class="list_item"
             @click="handleClickProduct(item)"
@@ -219,6 +231,9 @@ const handleDeleteProduct = (item) => {
 .title {
   font-size: 16px;
   margin-bottom: 12px;
+}
+.demo-tabs {
+  width: 100%;
 }
 .list_box {
   margin-top: 12px;
