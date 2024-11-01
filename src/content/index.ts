@@ -34,14 +34,44 @@ function searchClick(value: string) {
   }
 }
 
+function hoverEnterprise() {
+  const element = document.querySelector('.nav-login .ant-dropdown-trigger');
+    if (element) {
+      const mouseEvent = new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      element.dispatchEvent(mouseEvent);
+    }
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   console.log("收到来自", request, request.action);
   if (request.action == "click") {
-    searchClick(request.value);
+    hoverEnterprise()
+    const timer = setTimeout(() => {
+      clearTimeout(timer)
+      searchClick(request.value)
+    }, 1000)
   }
+  // 测试 模拟鼠标移入触发下拉框弹出
+  if (request.action == "hover") {
+    console.log("hover");
+    const element = document.querySelector('.nav-login .ant-dropdown-trigger');
+    if (element) {
+      const mouseEvent = new MouseEvent('mouseover', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      });
+      element.dispatchEvent(mouseEvent);
+    }
+
+  }
+  // 添加产品
   if (request.action == "add-product") {
     // 1.获取企业名
-    
     const enterpriseNodes = document.querySelectorAll(".nav-login-dropdown-label");
     console.log("产品名：", enterpriseNodes[0].textContent);
     // 1.获取产品名

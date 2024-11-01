@@ -63,16 +63,10 @@ const handleJumpProduct = async (name: string,  url: string) => {
     (tabs) => {
       chrome.tabs.sendMessage(
         tabs[0].id,
-        { type: "popup", action: "click", value: name },
+        { type: "popup", action: "hover", value: name },
         (res) => {
           console.log("获取到信息为：", res);
-          console.log("改变页面地址");
-          // 一秒后执行跳转到产品页
-          const timer = setTimeout(() => {
-            clearTimeout(timer)
-            const newUrl = url; // 替换为你想要的新 URL
-            chrome.tabs.update(tabs[0].id, { url: newUrl });
-          },1000)
+         
         }
       );
     }
@@ -129,7 +123,7 @@ const handleClickProduct = (item) => {
           const timer = setTimeout(() => {
             clearTimeout(timer)
             chrome.tabs.update(tabs[0].id, { url });
-          },1000)
+          },2000)
         }
       );
     }
