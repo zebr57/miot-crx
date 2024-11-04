@@ -6,10 +6,10 @@ import { Delete } from "@element-plus/icons-vue";
 import { ref, onMounted } from "vue";
 import type { TabsPaneContext } from 'element-plus'
 
-const activeName = ref("second") // tab栏切换
-const inputValue = ref(""); 
+const activeName = ref<string>("second") // tab栏切换
+const inputValue = ref<string>(""); 
 const enterpriseList = ref([]);
-const searchValue = ref("")
+const searchValue = ref<string>("")
 const productList = ref([])
 
 onMounted(() => {
@@ -39,7 +39,7 @@ const handleClickItem = async (item: string) => {
     },
     (tabs) => {
       chrome.tabs.sendMessage(
-        tabs[0].id,
+        tabs[0].id as number,
         { type: "popup", action: "click", value: item },
         (res) => {
           console.log("获取到信息为：", res);
@@ -53,25 +53,25 @@ const handleDelete = (item) => {
   chrome.storage.local.set({ list: JSON.stringify(enterpriseList.value) }); // 同步保存到本地
 };
 
-const handleJumpProduct = async (name: string,  url: string) => {
-  // 发送消息给content方式
-  chrome.tabs.query(
-    {
-      active: true,
-      currentWindow: true
-    },
-    (tabs) => {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { type: "popup", action: "hover", value: name },
-        (res) => {
-          console.log("获取到信息为：", res);
+// const handleJumpProduct = async (name: string,  url: string) => {
+//   // 发送消息给content方式
+//   chrome.tabs.query(
+//     {
+//       active: true,
+//       currentWindow: true
+//     },
+//     (tabs) => {
+//       chrome.tabs.sendMessage(
+//         tabs[0].id,
+//         { type: "popup", action: "hover", value: name },
+//         (res) => {
+//           console.log("获取到信息为：", res);
          
-        }
-      );
-    }
-  );
-}
+//         }
+//       );
+//     }
+//   );
+// }
 const handleClickTab = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
@@ -137,15 +137,15 @@ const handleDeleteProduct = (item) => {
 </script>
 
 <template>
-  <el-button
+  <!-- <el-button
     class="operate_item"
     type="primary"
     size="small"
     @click.stop="handleJumpProduct(21)"
-  >测试</el-button>
+  >测试</el-button> -->
   <div class="title">MIOT CRX</div>
 
-  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClickTab">
+  <el-tabs v-model="activeName" class="demo-tabs" type="card" @tab-click="handleClickTab">
     <el-tab-pane label="企业" name="first">
       <div>
         <el-input
@@ -184,12 +184,12 @@ const handleDeleteProduct = (item) => {
         type="primary"
         @click.stop="handleAddProduct()"
       >点击自动添加</el-button>
-      <el-input
+      <!-- <el-input
           v-model="searchValue"
           style="width: 240px"
           placeholder="请输入产品名称过滤"
           @change="handleSearch()"
-        />
+        /> -->
       <div>
         <div class="list_box">
           <div
@@ -270,5 +270,13 @@ const handleDeleteProduct = (item) => {
 
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+</style>
+<style>
+.el-tabs__nav {
+  float: none;
+}
+.el-tabs__item {
+  width: 100%;
 }
 </style>
