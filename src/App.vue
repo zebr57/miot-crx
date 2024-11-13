@@ -4,24 +4,29 @@
 import { Delete } from "@element-plus/icons-vue";
 
 import { ref, onMounted } from "vue";
-import type { TabsPaneContext } from 'element-plus'
+import type { TabsPaneContext } from "element-plus";
 
-const activeName = ref<string>("second") // tab栏切换
-const inputValue = ref<string>(""); 
-const enterpriseList = ref([]);
-const searchValue = ref<string>("")
-const productList = ref([])
+interface ProductInfo {
+  enterpriseName: string;
+  productName: string;
+  url: string | undefined;
+}
+
+const activeName = ref<string>("second"); // tab栏切换
+const inputValue = ref<string>("");
+const enterpriseList = ref<string[]>([]);
+// const searchValue = ref<string>("")
+const productList = ref<ProductInfo[]>([]);
 
 onMounted(() => {
   // 获取本地存储的数据
-  chrome.storage.local.get(["list", 'products'], function (result) {
+  chrome.storage.local.get(["list", "products"], function (result) {
     console.log("enterpriseList from storage:", result.list);
     console.log("productList from storage:", result.products);
     // 赋值
     const { list, products } = result;
     if (list) enterpriseList.value = JSON.parse(list);
-    if(products) productList.value = JSON.parse(products);
-    
+    if (products) productList.value = JSON.parse(products);
   });
 });
 
@@ -48,7 +53,7 @@ const handleClickItem = async (item: string) => {
     }
   );
 };
-const handleDelete = (item) => {
+const handleDelete = (item: string) => {
   enterpriseList.value = enterpriseList.value.filter((e) => e != item);
   chrome.storage.local.set({ list: JSON.stringify(enterpriseList.value) }); // 同步保存到本地
 };
@@ -66,46 +71,45 @@ const handleDelete = (item) => {
 //         { type: "popup", action: "hover", value: name },
 //         (res) => {
 //           console.log("获取到信息为：", res);
-         
+
 //         }
 //       );
 //     }
 //   );
 // }
 const handleClickTab = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
-}
+  console.log(tab, event);
+};
 const handleAddProduct = () => {
-  console.log("handleAddProduct")
+  console.log("handleAddProduct");
   // 发送消息给content方式
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { type: "popup", action: "add-product" },
-        (res: string) => {
-          console.log("获取到信息为：", res);
-          const {productName, enterpriseName} = res
-          const url = tabs[0].url
-          console.log("productName: ", productName);
-          console.log("enterpriseName: ", enterpriseName);
-          console.log("url:", url);
+    if (tabs.length < 1) return;
+    chrome.tabs.sendMessage(
+      tabs[0].id as number,
+      { type: "popup", action: "add-product" },
+      (res: ProductInfo) => {
+        console.log("获取到信息为：", res);
+        const { productName, enterpriseName } = res;
+        const url = tabs[0].url;
+        console.log("productName: ", productName);
+        console.log("enterpriseName: ", enterpriseName);
+        console.log("url:", url);
 
-          productList.value.push({productName, enterpriseName, url});
-          chrome.storage.local.set({ products: JSON.stringify(productList.value) }); // 同步保存到本地
-          
-        }
-      );
-    }
-  );
-}
-const handleSearch = () => {
-  console.log(searchValue.value,"handleSearch");
-  const key =  searchValue.value
-  productList.value = productList.value.filter(e => e.productName.indexOf(key) != -1 )
-}
-const handleClickProduct = (item) => {
+        productList.value.push({ productName, enterpriseName, url });
+        chrome.storage.local.set({ products: JSON.stringify(productList.value) }); // 同步保存到本地
+      }
+    );
+  });
+};
+// const handleSearch = () => {
+//   console.log(searchValue.value,"handleSearch");
+//   const key =  searchValue.value
+//   productList.value = productList.value.filter(e => e.productName.indexOf(key) != -1 )
+// }
+const handleClickProduct = (item: ProductInfo) => {
   console.log("handleClickProduct", item);
-  const { enterpriseName, url } = item
+  const { enterpriseName, url } = item;
   // 发送消息给content方式
   chrome.tabs.query(
     {
@@ -114,26 +118,26 @@ const handleClickProduct = (item) => {
     },
     (tabs) => {
       chrome.tabs.sendMessage(
-        tabs[0].id,
+        tabs[0].id as number,
         { type: "popup", action: "click", value: enterpriseName },
         (res) => {
           console.log("获取到信息为：", res);
           console.log("改变页面地址");
           // 一秒后执行跳转到产品页
           const timer = setTimeout(() => {
-            clearTimeout(timer)
-            chrome.tabs.update(tabs[0].id, { url });
-          },2000)
+            clearTimeout(timer);
+            chrome.tabs.update(tabs[0].id as number, { url });
+          }, 2000);
         }
       );
     }
   );
-}
-const handleDeleteProduct = (item) => {
+};
+const handleDeleteProduct = (item: ProductInfo) => {
   console.log("handleDeleteProduct", item);
   productList.value = productList.value.filter((e) => e.productName != item.productName);
   chrome.storage.local.set({ products: JSON.stringify(productList.value) }); // 同步保存到本地
-}
+};
 </script>
 
 <template>
@@ -179,11 +183,9 @@ const handleDeleteProduct = (item) => {
       </div>
     </el-tab-pane>
     <el-tab-pane label="产品" name="second">
-      <el-button
-        style="width: 240px"
-        type="primary"
-        @click.stop="handleAddProduct()"
-      >点击自动添加</el-button>
+      <el-button style="width: 240px" type="primary" @click.stop="handleAddProduct()"
+        >点击自动添加</el-button
+      >
       <!-- <el-input
           v-model="searchValue"
           style="width: 240px"
@@ -193,7 +195,7 @@ const handleDeleteProduct = (item) => {
       <div>
         <div class="list_box">
           <div
-            v-for="(item) in productList"
+            v-for="item in productList"
             :key="item.url"
             class="list_item"
             @click="handleClickProduct(item)"
@@ -216,9 +218,6 @@ const handleDeleteProduct = (item) => {
       </div>
     </el-tab-pane>
   </el-tabs>
-
-
-
 </template>
 
 <style scoped>
