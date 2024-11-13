@@ -4,6 +4,10 @@
 
 格式遵循 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 的规范
 <!-- 并且遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/) 版本控制。 -->
+## [v1.0.0-beta4] - 2024-11-13
+### Added
+= 新功能：一键添加产品到列表，点击后自动跳转至该产品页面
+
 ## [v1.0.0-beta3] - 2024-10-30
 ### FIXED
 - 米家后台更新同步
