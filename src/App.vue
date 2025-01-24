@@ -48,6 +48,13 @@ const handleClickItem = async (item: string) => {
         { type: "popup", action: "click", value: item },
         (res) => {
           console.log("获取到信息为：", res);
+          const url = "https://iot.mi.com/fe-op/productCenter"
+          if(tabs[0].url == url) return
+          // 自动跳转产品列表页
+          const timer = setTimeout(() => {
+            clearTimeout(timer);
+            chrome.tabs.update(tabs[0].id as number, { url });
+          }, 3000);
         }
       );
     }
@@ -127,7 +134,7 @@ const handleClickProduct = (item: ProductInfo) => {
           const timer = setTimeout(() => {
             clearTimeout(timer);
             chrome.tabs.update(tabs[0].id as number, { url });
-          }, 2000);
+          }, 3000);
         }
       );
     }
