@@ -73,9 +73,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action == "add-product") {
     // 1.获取企业名
     const enterpriseNodes = document.querySelectorAll(".nav-login-dropdown-label");
-    console.log("产品名：", enterpriseNodes[0].textContent);
+    console.log("企业名：", enterpriseNodes[0].textContent);
     // 1.获取产品名
-    const productNodes = document.querySelectorAll(".detailHeader-content p");
+    const productNodes = document.querySelectorAll(".product-name");
     console.log("产品名：", productNodes[0].textContent);
     // 2.返回给Popup
     sendResponse({enterpriseName: enterpriseNodes[0].textContent, productName: productNodes[0].textContent});
