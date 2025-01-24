@@ -4,6 +4,12 @@
 
 格式遵循 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 的规范
 <!-- 并且遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/) 版本控制。 -->
+## [v1.0.0-beta5] - 2025-01-24
+### FIXED
+- 修复：产品添加失败问题
+- 修改：点击企业项自动跳转产品列表页
+- 修改：点击选项统一为3s后跳转产品列表页、信息页
+
 ## [v1.0.0-beta4] - 2024-11-13
 ### Added
 = 新功能：一键添加产品到列表，点击后自动跳转至该产品页面
