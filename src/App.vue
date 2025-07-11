@@ -54,7 +54,7 @@ const handleClickItem = async (item: string) => {
           const timer = setTimeout(() => {
             clearTimeout(timer);
             chrome.tabs.update(tabs[0].id as number, { url });
-          }, 3000);
+          }, 5000);
         }
       );
     }
@@ -134,7 +134,7 @@ const handleClickProduct = (item: ProductInfo) => {
           const timer = setTimeout(() => {
             clearTimeout(timer);
             chrome.tabs.update(tabs[0].id as number, { url });
-          }, 3000);
+          }, 5000);
         }
       );
     }
